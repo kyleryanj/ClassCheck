@@ -7,8 +7,14 @@ class Student(models.Model):
 	email = models.EmailField(max_length=70, blank=True)
 	name = models.CharField(max_length=25, blank=True)
 
+	def __unicode__(self):
+		return self.name
+
 class Class(models.Model):
 	class_regex = RegexValidator(regex=r'^[A-Fa-f]{4}\d{6}', message="Invalid course code. Should be code+section e.g. csci110101")
-	class_code = models.CharField(validators=[class_regex], blank=True, max_length=10)
+	class_code = models.CharField(validators=[class_regex], max_length=10)
 	students = models.ManyToManyField(Student)
+
+	def __unicode__(self):
+		return self.class_code
 
