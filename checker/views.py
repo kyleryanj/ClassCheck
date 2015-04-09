@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse
 
 from .forms import StudentForm
 
+from twilio.rest import TwilioRestClient 
+
 from .models import Class, Student
 
 def index(request):
@@ -43,7 +45,11 @@ def track(request):
 				new_class.save()
 				new_class.students.add(new_student)
 
-
+			ACCOUNT_SID = "***REMOVED***" 
+			AUTH_TOKEN = "***REMOVED***"	
+			client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
+ 
+			client.messages.create(to=number, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that your contact information is correct.")
 			return HttpResponseRedirect(reverse('works'))
 	else:
 		form = StudentForm()
