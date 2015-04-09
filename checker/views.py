@@ -20,9 +20,34 @@ def track(request):
 	# 	'number_form': number_form,
 	# 	'name_form': name_form,
 	# }
+	if request.method == 'POST':
+		form = StudentForm(request.POST)
+		if form.is_valid():
+			print(form.cleaned_data)
+			name = form.cleaned_data['name']
+			email = form.cleaned_data['email']
+			class_code = form.cleaned_data['class_code']
+			number = form.cleaned_data['phone_number']
 
-	student_form = StudentForm()
-	return render(request, 'checker/track.html', {'form': student_form, })
+			if len(Student.objects.filter(phone_number=number)) != 0 or len(Student.objects.filter(email=email)) != 0:
+				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
+
+			new_student = Student(name=name, email=email, phone_number=number)
+			new_student.save()
+
+			if class_code in Class.objects.all().values().values():
+				existing_class = Class.objects.get(class_code=class_code)
+				existing_class.students.add(new_student)
+			else:
+				new_class = Class(class_code=class_code)
+				new_class.save()
+				new_class.students.add(new_student)
+
+
+			return HttpResponseRedirect(reverse('works'))
+	else:
+		form = StudentForm()
+	return render(request, 'checker/track.html', {'form': form, })
 
 def remove(request):
 	return HttpResponse("remove page")

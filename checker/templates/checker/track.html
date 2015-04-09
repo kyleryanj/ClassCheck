@@ -2,12 +2,12 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'track_submit' %}" method="post">
+<form action="{% url 'track' %}" method="post">
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="fieldWrapper">
 			{{ field.errors }}
-			{{ field.label_tag }} {{ field }}
+			{{ field.label }} {{ field }}
 			<br><br>
 		</div>
 	{% endfor %}
