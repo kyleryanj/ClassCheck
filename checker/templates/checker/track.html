@@ -1,0 +1,17 @@
+<h1> ClassCheck </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'track_submit' %}" method="post">
+{% csrf_token %}
+{{ name_form }}
+<br><br>
+{{ class_form }}
+<br><br>
+{{ email_form }}
+<br><br>
+{{ number_form }}
+<br><br>
+
+<input type="submit" value="Track Class" />
+</form>

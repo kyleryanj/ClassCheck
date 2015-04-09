@@ -1,0 +1,11 @@
+<h1>ClassCheck</h1>
+
+<form action="{% url 'track' %}" method="post">
+	{% csrf_token %}
+	<input type="submit" name="track" value="Track Classes">
+</form>
+
+<form action="{% url 'remove' %}" method="post">
+	{% csrf_token %}
+	<input type="submit" name="remove" value="Untrack Classes">
+</form>
