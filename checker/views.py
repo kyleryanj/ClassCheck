@@ -27,12 +27,13 @@ def track(request):
 		form = StudentForm(request.POST)
 		if form.is_valid():
 			print(form.cleaned_data)
-			name = form.cleaned_data['name']
-			email = form.cleaned_data['email']
+			name = form.cleaned_data['name'].lower()
+			email = form.cleaned_data['email'].lower()
+
 			classes=[]
-			class_code = form.cleaned_data['class_code']
-			class_code2 = form.cleaned_data['class_code2']
-			class_code3 = form.cleaned_data['class_code3']
+			class_code = form.cleaned_data['class_code'].lower()
+			class_code2 = form.cleaned_data['class_code2'].lower()
+			class_code3 = form.cleaned_data['class_code3'].lower()
 			classes.append(class_code)
 			classes.append(class_code2)
 			classes.append(class_code3)
@@ -45,19 +46,21 @@ def track(request):
 				if item == "":
 					classes.remove(item)
 
-			number = form.cleaned_data['phone_number']
+			number = form.cleaned_data['phone_number'].lower()
 
 			if len(Student.objects.filter(phone_number=number)) != 0 or len(Student.objects.filter(email=email)) != 0:
 				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
 
+			#here is awful hard-coding into db
 			if number == '':
 				new_student = Student(name=name, email=email, phone_number="none")
 			else:
 				new_student = Student(name=name, email="none", phone_number=number)
+
 			new_student.save()
 
 			for class_code_item in classes:
-				if class_code_item in Class.objects.all().values().values():
+				if len(Class.objects.filter(class_code=class_code_item)) != 0:
 					existing_class = Class.objects.get(class_code=class_code_item)
 					existing_class.students.add(new_student)
 				else:
