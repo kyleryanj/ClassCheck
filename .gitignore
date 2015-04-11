@@ -1,2 +1,4 @@
 *.pyc
 staticfiles
+
+*/ClassCheck/dev_settings.py

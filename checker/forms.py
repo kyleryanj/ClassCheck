@@ -9,6 +9,14 @@ class StudentForm(forms.Form):
 	class_code2 = forms.RegexField(required=False, label="Class code", regex=r'^[A-Za-z]{4}\d{6}$', error_message= ("Invalid course code. Should be code+section e.g. csci110101."))
 	class_code3 = forms.RegexField(required=False, label="Class code", regex=r'^[A-Za-z]{4}\d{6}$', error_message= ("Invalid course code. Should be code+section e.g. csci110101."))
 
+	# def clean(self):
+	# 	if not(self.phone_number or self.email):
+	# 		raise ValidationError("You must enter either a phone number or email.")
+
+	# 	if self.phone_number != '' and self.email != '':
+	# 		raise ValidationError("You cannot enter both an email and phone number.")
+
+
 # class NameForm(forms.Form):
 
 # class NumberForm(forms.Form):

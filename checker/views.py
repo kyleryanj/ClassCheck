@@ -1,7 +1,13 @@
+import sys
+sys.path.insert(0, '/home/kyleryanj/Downloads/Programming/ClassCheck/ClassCheck/ClassCheck/')
+
+from dev_settings import *
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 
 from .forms import StudentForm
 
@@ -29,6 +35,10 @@ def track(request):
 			print(form.cleaned_data)
 			name = form.cleaned_data['name'].lower()
 			email = form.cleaned_data['email'].lower()
+			number = form.cleaned_data['phone_number'].lower()
+
+			# if email != '' and number != '':
+			# 	raise ValidationError(('You cannot enter both an email and a phone number'))
 
 			classes=[]
 			class_code = form.cleaned_data['class_code'].lower()
@@ -46,12 +56,11 @@ def track(request):
 				if item == "":
 					classes.remove(item)
 
-			number = form.cleaned_data['phone_number'].lower()
 
 			if len(Student.objects.filter(phone_number=number)) != 0 or len(Student.objects.filter(email=email)) != 0:
 				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
 
-			#here is awful hard-coding into db
+			#here is awful hard-coding into db	
 			if number == '':
 				new_student = Student(name=name, email=email, phone_number="none")
 			else:
@@ -69,8 +78,8 @@ def track(request):
 					new_class.students.add(new_student)
 
 			if number != '':
-				ACCOUNT_SID = "***REMOVED***" 
-				AUTH_TOKEN = "***REMOVED***"	
+				ACCOUNT_SID = "***REMOVED***"
+				AUTH_TOKEN = "***REMOVED***"
 				client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
 	
 				client.messages.create(to=number, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that your contact information is correct.")

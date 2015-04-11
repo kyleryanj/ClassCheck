@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from dev_settings import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -78,21 +79,21 @@ WSGI_APPLICATION = 'ClassCheck.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cc',
-        'USER': 'kyleryanj',
-        'PASSWORD': '***REMOVED***',
-        'HOST': '***REMOVED***', 
-        'PORT': '3306', 
+        'NAME': db_name,
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host, 
+        'PORT': db_port, 
     }
 }
 
 #Email Settings
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ryanwn@bc.edu'
-EMAIL_HOST_PASSWORD = '***REMOVED***'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = use_tls
+EMAIL_HOST = email_smtp
+EMAIL_HOST_USER = email_user
+EMAIL_HOST_PASSWORD = email_password
+EMAIL_PORT = email_portnum
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
