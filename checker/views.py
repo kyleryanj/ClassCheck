@@ -78,11 +78,10 @@ def track(request):
 					new_class.students.add(new_student)
 
 			if number != '':
-				ACCOUNT_SID = "***REMOVED***"
-				AUTH_TOKEN = "***REMOVED***"
-				client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
-	
+
+				client = TwilioRestClient(twilio_account_sid, twilio_auth_token) 
 				client.messages.create(to=number, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that your contact information is correct.")
+			
 			else:
 				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that your contact information is correct.', 'ryanwn@bc.edu', [email], fail_silently=False)
 
