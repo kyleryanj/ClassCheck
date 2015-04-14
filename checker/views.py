@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 
-from .forms import StudentForm
+from .forms import StudentForm, RemoveForm
 
 from twilio.rest import TwilioRestClient 
 
@@ -91,7 +91,29 @@ def track(request):
 	return render(request, 'checker/track.html', {'form': form, })
 
 def remove(request):
-	return HttpResponse("remove page")
+	if request.method == 'POST':
+		form = RemoveForm(request.POST)
+		if form.is_valid():
+			print(form.cleaned_data)
+			contact_info = form.cleaned_data['contact_info'].lower()
+			choice = form.cleaned_data['choice'].lower()
+
+			if choice == 'email':
+				to_remove = Student.objects.filter(email=contact_info)
+			
+			elif choice == 'phone':
+				to_remove = Student.objects.filter(phone_number=contact_info)
+
+			if len(to_remove) != 0:
+					to_remove.delete()
+			else:
+				return render(request, 'checker/remove.html', {'form': form, 'error_message': "That student doesn't exist.",})
+
+			return HttpResponseRedirect(reverse('remove_works'))
+	else:
+		form = RemoveForm()
+	return render(request, 'checker/remove.html', {'form': form, })
+
 
 def track_submit(request, forms):
 	name = request.POST['name']
@@ -119,4 +141,7 @@ def remove_submit(request):
 	return HttpResponse("removesubmit page")
 
 def it_works(request):
-	return HttpResponse("Yesssss")
+	return HttpResponse("Your registration has been completed. You should receive an email or text message soon confirming that we received your information.")
+
+def remove_works(request):
+	return HttpResponse("You have been sucessfully removed.")

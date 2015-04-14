@@ -2,7 +2,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'track' %}" method="post">
+<form action="{% url 'remove' %}" method="post">
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="fieldWrapper">
@@ -20,5 +20,5 @@
 {{ number_form }}
 <br><br> -->
 
-<input type="submit" value="Track Classes" />
+<input type="submit" value="Untrack Classes" />
 </form>

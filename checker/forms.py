@@ -16,7 +16,9 @@ class StudentForm(forms.Form):
 	# 	if self.phone_number != '' and self.email != '':
 	# 		raise ValidationError("You cannot enter both an email and phone number.")
 
-
+class RemoveForm(forms.Form):
+	choice = forms.ChoiceField(label="Did you register with an email or phone number?", choices=(('email', 'Email'), ('phone', 'Phone Number')), required=True)
+	contact_info = forms.RegexField(label="Email/number", regex=r'^(\+1\d{10})|[^@]+@[^@]+\.[^@]+$', error_message= ("Must enter number in +19999999999 format or valid email address"))
 # class NameForm(forms.Form):
 
 # class NumberForm(forms.Form):
