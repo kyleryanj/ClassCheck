@@ -29,13 +29,15 @@ def track(request):
 	# 	'number_form': number_form,
 	# 	'name_form': name_form,
 	# }
-	if request.method == 'POST':
+	if request.method == 'POST' and 'submit' in request.POST:
 		form = StudentForm(request.POST)
 		if form.is_valid():
-			print(form.cleaned_data)
+			contact_info = form.cleaned_data['contact_info'].lower()
+			choice = form.cleaned_data['choice'].lower()
+
 			name = form.cleaned_data['name'].lower()
-			email = form.cleaned_data['email'].lower()
-			number = form.cleaned_data['phone_number'].lower()
+			# email = form.cleaned_data['email'].lower()
+			# number = form.cleaned_data['phone_number'].lower()
 
 			# if email != '' and number != '':
 			# 	raise ValidationError(('You cannot enter both an email and a phone number'))
@@ -57,14 +59,14 @@ def track(request):
 					classes.remove(item)
 
 
-			if len(Student.objects.filter(phone_number=number)) != 0 or len(Student.objects.filter(email=email)) != 0:
+			if len(Student.objects.filter(phone_number=contact_info)) != 0 or len(Student.objects.filter(email=contact_info)) != 0:
 				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
 
 			#here is awful hard-coding into db	
-			if number == '':
-				new_student = Student(name=name, email=email, phone_number="none")
-			else:
-				new_student = Student(name=name, email="none", phone_number=number)
+			if choice == 'email':
+				new_student = Student(name=name, email=contact_info, phone_number="none")
+			elif choice == 'phone':
+				new_student = Student(name=name, email="none", phone_number=contact_info)
 
 			new_student.save()
 
@@ -77,13 +79,13 @@ def track(request):
 					new_class.save()
 					new_class.students.add(new_student)
 
-			if number != '':
+			if choice == 'phone':
 
 				client = TwilioRestClient(twilio_account_sid, twilio_auth_token) 
-				client.messages.create(to=number, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that your contact information is correct.")
+				client.messages.create(to=contact_info, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that we have received your request.")
 			
 			else:
-				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that your contact information is correct.', 'ryanwn@bc.edu', [email], fail_silently=False)
+				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that we have receieved your request.', 'ryanwn@bc.edu', [contact_info], fail_silently=False)
 
 			return HttpResponseRedirect(reverse('works'))
 	else:
@@ -91,7 +93,7 @@ def track(request):
 	return render(request, 'checker/track.html', {'form': form, })
 
 def remove(request):
-	if request.method == 'POST':
+	if request.method == 'POST' and 'submit' in request.POST:
 		form = RemoveForm(request.POST)
 		if form.is_valid():
 			print(form.cleaned_data)

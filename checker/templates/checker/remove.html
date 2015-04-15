@@ -6,7 +6,7 @@
 	{% csrf_token %}
 	{% for field in form %}
 		<div class="fieldWrapper">
-			{{ field.errors }}
+		<p>{{ field.errors.as_text }}</p>
 			{{ field.label }} {{ field }}
 			<br><br>
 		</div>
@@ -20,5 +20,5 @@
 {{ number_form }}
 <br><br> -->
 
-<input type="submit" value="Untrack Classes" />
+<input type="submit" name="submit" value="Untrack Classes" />
 </form>
