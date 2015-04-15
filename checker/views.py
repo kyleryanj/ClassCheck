@@ -42,6 +42,25 @@ def track(request):
 			# if email != '' and number != '':
 			# 	raise ValidationError(('You cannot enter both an email and a phone number'))
 
+
+			if len(Student.objects.filter(phone_number=contact_info)) != 0 or len(Student.objects.filter(email=contact_info)) != 0:
+				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
+
+			#here is awful hard-coding into db	
+			#and bad form checking
+			if choice == 'email':
+				if not contact_info[0] == "+":
+					new_student = Student(name=name, email=contact_info, phone_number="none")
+				else:
+					return render(request, 'checker/track.html', {'form': form, 'error_message': "You selected Email but gave us a phone number!",})
+			elif choice == 'phone':
+				if '@' not in contact_info:
+					new_student = Student(name=name, email="none", phone_number=contact_info)
+				else:
+					return render(request, 'checker/track.html', {'form': form, 'error_message': "You selected Phone Number but gave us an email!",})
+
+			new_student.save()
+
 			classes=[]
 			class_code = form.cleaned_data['class_code'].lower()
 			class_code2 = form.cleaned_data['class_code2'].lower()
@@ -57,18 +76,6 @@ def track(request):
 			for item in classes:
 				if item == "":
 					classes.remove(item)
-
-
-			if len(Student.objects.filter(phone_number=contact_info)) != 0 or len(Student.objects.filter(email=contact_info)) != 0:
-				return render(request, 'checker/track.html', {'form': form, 'error_message': "That student already exists.",})
-
-			#here is awful hard-coding into db	
-			if choice == 'email':
-				new_student = Student(name=name, email=contact_info, phone_number="none")
-			elif choice == 'phone':
-				new_student = Student(name=name, email="none", phone_number=contact_info)
-
-			new_student.save()
 
 			for class_code_item in classes:
 				if len(Class.objects.filter(class_code=class_code_item)) != 0:
@@ -101,13 +108,24 @@ def remove(request):
 			choice = form.cleaned_data['choice'].lower()
 
 			if choice == 'email':
-				to_remove = Student.objects.filter(email=contact_info)
-			
+				if not contact_info[0] == "+":
+					to_remove = Student.objects.filter(email=contact_info)
+				else:
+					return render(request, 'checker/remove.html', {'form': form, 'error_message': "You selected Email but gave us a phone number!",})
+						
 			elif choice == 'phone':
-				to_remove = Student.objects.filter(phone_number=contact_info)
+				if '@' not in contact_info:
+					to_remove = Student.objects.filter(phone_number=contact_info)
+				else:
+					return render(request, 'checker/remove.html', {'form': form, 'error_message': "You selected Phone Number but gave us an email!",})
+
 
 			if len(to_remove) != 0:
-					to_remove.delete()
+				classes = list(to_remove[0].class_set.all())
+				to_remove.delete()
+				for item in classes:
+					if len(item.students.all()) == 0:
+						item.delete()
 			else:
 				return render(request, 'checker/remove.html', {'form': form, 'error_message': "That student doesn't exist.",})
 
@@ -117,30 +135,6 @@ def remove(request):
 	return render(request, 'checker/remove.html', {'form': form, })
 
 
-def track_submit(request, forms):
-	name = request.POST['name']
-	email = request.POST['email']
-	class_code = request.POST['class']
-	number = request.POST['number']
-
-	if name in Student.objects.all().name or email in Student.objects.all().email:
-		return render(request, 'checker/track.html', forms.update({'error_message': "That student already exists"}))
-	new_student = Student(name=name, email=email, number=number)
-	new_student.save()
-
-	if class_code in Class.objects.all().class_code:
-		existing_class = Class.objects.get(class_code=class_code)
-		existing_class.students.add(new_student)
-	else:
-		new_class = Class(class_code=class_code)
-		new_class.save()
-		new_class.students.add(new_student)
-
-
-	return HttpResponseRedirect(reverse('works'))
-
-def remove_submit(request):
-	return HttpResponse("removesubmit page")
 
 def it_works(request):
 	return HttpResponse("Your registration has been completed. You should receive an email or text message soon confirming that we received your information.")
