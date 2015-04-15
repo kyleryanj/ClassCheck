@@ -103,7 +103,6 @@ def remove(request):
 	if request.method == 'POST' and 'submit' in request.POST:
 		form = RemoveForm(request.POST)
 		if form.is_valid():
-			print(form.cleaned_data)
 			contact_info = form.cleaned_data['contact_info'].lower()
 			choice = form.cleaned_data['choice'].lower()
 
