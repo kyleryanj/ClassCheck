@@ -1,0 +1,24 @@
+<h1> ClassCheck </h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'list_class_form' %}" method="post">
+	{% csrf_token %}
+	{% for field in form %}
+		<div class="fieldWrapper">
+		<p>{{ field.errors.as_text }}</p>
+			{{ field.label }} {{ field }}
+			<br><br>
+		</div>
+	{% endfor %}
+<!-- {{ name_form }}
+<br><br>
+{{ class_form }}
+<br><br>
+{{ email_form }}
+<br><br>
+{{ number_form }}
+<br><br> -->
+
+<input type="submit" name="submit" value="List Classes" />
+</form>
