@@ -120,6 +120,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+TEMPLATE_DIRS = (
+    BASE_DIR + '/checker/templates/checker/',
+)
+
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
