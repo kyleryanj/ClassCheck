@@ -121,7 +121,7 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'checker', 'templates'),
+    os.path.join(BASE_DIR, '/checker/templates/'),
 )
 
 # Simplified static file serving.
