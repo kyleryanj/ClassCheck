@@ -79,7 +79,7 @@ def track(request):
 			else:
 				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that we have receieved your request.', 'ryanwn@bc.edu', [contact_info], fail_silently=False)
 
-			return HttpResponseRedirect(reverse('works'))
+			return render(request, 'checker/track_success.html')
 	else:
 		form = StudentForm()
 	return render(request, 'checker/track.html', {'form': form, })
@@ -113,18 +113,12 @@ def remove(request):
 			else:
 				return render(request, 'checker/remove.html', {'form': form, 'error_message': "That student doesn't exist.",})
 
-			return HttpResponseRedirect(reverse('remove_works'))
+			return render(request, 'checker/remove_success.html')
 	else:
 		form = RemoveForm()
 	return render(request, 'checker/remove.html', {'form': form, })
 
 
-
-def it_works(request):
-	return HttpResponse("Your registration has been completed. You should receive an email or text message soon confirming that we received your information.")
-
-def remove_works(request):
-	return HttpResponse("You have been sucessfully removed.")
 
 def add_class(request):
 	if request.method == 'POST' and 'submit' in request.POST:
@@ -172,7 +166,7 @@ def add_class(request):
 			else:
 				return render(request, 'checker/add_class.html', {'form': form, 'error_message': "That student doesn't exist.",})
 
-			return HttpResponseRedirect(reverse('add_class_works'))
+			return render(request, 'checker/add_class_success.html')
 	else:
 		form = AddClassForm()
 	return render(request, 'checker/add_class.html', {'form': form, })
@@ -207,11 +201,14 @@ def list_class_form(request):
 		form = ListClassForm()
 	return render(request, 'checker/list_class_form.html', {'form': form, })
 
-def list_class(request):
-	return HttpResponse("list")
+def faq(request):
+	return render(request, 'checker/faq.html')
 
-def add_class_works(request):
-	return HttpResponse("You have succesfully added classes to your tracked list.")
+def contact(request):
+	return render(request, 'checker/contact.html')
+
+def privacy(request):
+	return render(request, 'checker/privacy.html')
 
 def fix_classes(classes):
 	#get rid of duplicates
@@ -223,5 +220,3 @@ def fix_classes(classes):
 			class_list.remove(item)
 	return class_list
 
-def test(request):
-	return render(request, 'checker/test.html')

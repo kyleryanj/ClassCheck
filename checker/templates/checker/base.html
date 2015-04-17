@@ -4,6 +4,7 @@
 <!-- <link href="{% static 'checker/css/bootstrap-responsive.css' %}" rel="stylesheet"> -->
 <!-- <script src="{% static 'checker/js/jquery-1.8.1.min.js' %}" type="text/javascript"></script> -->
 <link href="{% static 'checker/css/jumbotron-narrow.css' %}" rel="stylesheet">
+<link href="{% static 'checker/css/sticky-footer.css' %}" rel="stylesheet">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,20 +43,22 @@
 					<ul class="nav nav-pills pull-right">
 
 						<li role="presentation"><a href="{% url 'index' %}">Home</a></li>
-						<li role="presentation"><a href="{% url 'index' %}">About</a></li>
-						<li role="presentation"><a href="#">Contact</a></li>
+						<li role="presentation"><a href="{% url 'faq' %}">FAQ</a></li>
+						<li role="presentation"><a href="{% url 'contact' %}">Contact</a></li>
 					</ul>
 				</nav>
-				<h3 class="text-muted">ClassCheck</h3>
-				<!-- <img class=" img-responsive" width="100" src="{% static 'checker/img/classchecklogo.png' %}"/> -->
+				<h3 class="text-muted">Eagle ClassCheck</h3>
+				<!-- <img class=" img-responsive" width="350" src="{% static 'checker/img/classchecklogo.png' %}"/> -->
 
 			</div>
 
 			{% block content %}{% endblock %}
 
-			<footer class="footer">
-				<p>&copy; ClassCheck 2015 &middot; <a href="#">Privacy</a></p>
-			</footer>
+			<div class="footer">
+				<div class="container">
+				<p>&copy; ClassCheck 2015 &middot; <a href="{% url 'privacy' %}">Privacy</a></p>
+				</div>
+			</div>
 
 		</div> <!-- /container -->
 
