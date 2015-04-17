@@ -1,0 +1,1 @@
+web: gunicorn ClassCheck.wsgi --log-file -
