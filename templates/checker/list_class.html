@@ -1,0 +1,13 @@
+{% extends 'checker/base.html' %}
+
+{% block content %}
+
+<h2>Classes</h2>
+<ul class="list-group">
+{% for item in classes %}
+  <li class="list-group-item">{{ item }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
