@@ -1,35 +1,31 @@
-{% load staticfiles %}
+{% extends 'checker/base.html' %}
 
-<link href="{% static 'checker/css/bootstrap.css' %}" rel="stylesheet">
-<!-- <link href="{% static 'checker/css/bootstrap-responsive.css' %}" rel="stylesheet"> -->
-<!-- <script src="{% static 'checker/js/jquery-1.8.1.min.js' %}" type="text/javascript"></script> -->
-<link href="{% static 'checker/css/jumbotron-narrow.css' %}" rel="stylesheet">
+{% block content %}
+<div class="jumbotron">
+	<h1>What is ClassCheck?</h1>
+	<p class="lead">ClassCheck is a website I created to allow BC students to track desired classes and get notified via email/text when a spot opens up.</p>
+	<br>
+	<p><a class="btn btn-lg btn-success" href="{% url 'track' %}" role="button">Start Tracking</a></p>
+</div>
 
+<div class="row marketing">
+	<div class="col-lg-4">
+		<p><a class="btn btn-primary center-block" href="{% url 'add_class' %}" role="button">Track Additional Classes</a></p>
+		<p>If you've already signed up, you can go here to track additional classes (up to 3 max).</p>
 
-<h1>ClassCheck</h1>
+	</div>
 
-<form action="{% url 'track' %}" method="post">
-	{% csrf_token %}
-	<input type="submit" name="track" value="Track Classes">
-</form>
+	<div class="col-lg-4">
+		<p><a class="btn btn-primary center-block" href="{% url 'remove' %}" role="button">Untrack Classes</a></p>
+		<p>Remove yourself from tracking completely.</p>
 
-<form action="{% url 'remove' %}" method="post">
-	{% csrf_token %}
-	<input type="submit" name="remove" value="Untrack Classes">
-</form>
+	</div>
 
-<form action="{% url 'add_class' %}" method="post">
-	{% csrf_token %}
-	<input type="submit" name="add" value="Add Additional Classes">
-</form>
+		<div class="col-lg-4">
+		<p><a class="btn btn-primary center-block" href="{% url 'list_class_form' %}" role="button">List Classes</a></p>
+		<p>List the classes you are currently tracking.</p>
 
-<form action="{% url 'list_class_form' %}" method="post">
-	{% csrf_token %}
-	<input type="submit" name="list" value="See Your Tracked Classes">
-</form>
+		</div>
+</div>
 
-<form action="{% url 'test' %}" method="post">
-	{% csrf_token %}
-	<input type="submit" name="test" value="Test Bootstrap">
-</form>
-
+{% endblock %}

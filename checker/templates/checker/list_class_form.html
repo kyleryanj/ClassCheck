@@ -1,12 +1,14 @@
-<h1> ClassCheck </h1>
+{% extends 'checker/base.html' %}
+
+{% block content %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'list_class_form' %}" method="post">
 	{% csrf_token %}
 	{% for field in form %}
-		<div class="fieldWrapper">
-		<p>{{ field.errors.as_text }}</p>
+		<div class="bla">
+			<p>{{ field.errors.as_text }}</p>
 			{{ field.label }} {{ field }}
 			<br><br>
 		</div>
@@ -19,6 +21,9 @@
 <br><br>
 {{ number_form }}
 <br><br> -->
-
-<input type="submit" name="submit" value="List Classes" />
+<!-- <div class="col-xs-7"> -->
+<input type="submit" class="btn btn-default" name="submit" value="List Classes" />
+<!-- </div> -->
 </form>
+
+{% endblock %}
