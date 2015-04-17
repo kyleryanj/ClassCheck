@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/home/kyleryanj/Downloads/Programming/ClassCheck/ClassCheck/ClassCheck/')
+sys.path.insert(0, '/app/ClassCheck/')
 
 from dev_settings import *
 
