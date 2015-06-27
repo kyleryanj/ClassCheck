@@ -1,5 +1,5 @@
 import sys
-sys.path.append('/home/kyleryanj/Downloads/Programming/ClassCheck/ClassCheck/ClassCheck/')
+# sys.path.append('/home/kyleryanj/Downloads/Programming/ClassCheck/ClassCheck/ClassCheck/')
 
 sys.path.append('/app/ClassCheck/')
 
