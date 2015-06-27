@@ -79,7 +79,7 @@ def track(request):
 				client.messages.create(to=contact_info, from_="***REMOVED***", body="Thanks for using ClassCheck! This message is to confirm that we have received your request.")
 			
 			else:
-				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that we have receieved your request.', 'ryanwn@bc.edu', [contact_info], fail_silently=False)
+				send_mail('ClassCheck Confirmation', 'Thanks for using ClassCheck! This message is to confirm that we have received your request.', 'ryanwn@bc.edu', [contact_info], fail_silently=False)
 
 			return render(request, 'checker/track_success.html')
 	else:
