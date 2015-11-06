@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from dev_settings import *
 
 import dj_database_url
 
@@ -23,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '***REMOVED***'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,11 +88,11 @@ DATABASES['default'] = dj_database_url.config()
 
 #Email Settings
 
-EMAIL_USE_TLS = use_tls
-EMAIL_HOST = email_smtp
-EMAIL_HOST_USER = email_user
-EMAIL_HOST_PASSWORD = email_password
-EMAIL_PORT = email_portnum
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['EMAIL_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_PASSWORD']
+EMAIL_PORT = 587
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -131,8 +130,3 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #random stuff
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-try:
-  from local_settings import *
-except Exception as e:
-  pass

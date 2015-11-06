@@ -1,10 +1,4 @@
-import sys
-#set this to be wherever dev_settings is on the local machine
-sys.path.append('/home/kyleryanj/Downloads/Programming/ClassCheck/ClassCheck/ClassCheck/') 
-
-sys.path.append('/app/ClassCheck/')
-
-from dev_settings import *
+import os
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -76,8 +70,8 @@ def track(request):
 
 			if choice == 'phone':
 
-				client = TwilioRestClient(twilio_account_sid, twilio_auth_token) 
-				client.messages.create(to=contact_info, from_="***REMOVED***", body="Thanks for using Eagle ClassCheck! This message is to confirm that we have received your request.")
+				client = TwilioRestClient(os.environ['TWILIO_ACCOUNT_SID'], os.environ['TWILIO_AUTH_TOKEN']) 
+				client.messages.create(to=contact_info, from_=os.environ['TWILIO_NUMBER'], body="Thanks for using Eagle ClassCheck! This message is to confirm that we have received your request.")
 			
 			else:
 				send_mail('Eagle ClassCheck Confirmation', 'Thanks for using Eagle ClassCheck! This message is to confirm that we have received your request.', 'ryanwn@bc.edu', [contact_info], fail_silently=False)
